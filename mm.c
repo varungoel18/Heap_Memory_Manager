@@ -14,7 +14,7 @@ mm_init() {
 /* function to request VM page from kernel */ 
 static void *
 mm_get_new_vm_page_from_kernel (int units) {
-	char * vm_page = mmap(
+	char *vm_page = mmap(
 			0,
 			units * SYSTEM_PAGE_SIZE,
 			PROT_READ|PROT_WRITE|PROT_EXEC,
@@ -26,7 +26,7 @@ mm_get_new_vm_page_from_kernel (int units) {
 		return NULL;
 		
 	}
-	memset (vm_page,0,units * SYSTEM_PAGE_SIZE );
+	memset (vm_page, 0,units * SYSTEM_PAGE_SIZE );
 	return (void * )vm_page;
 
 }
@@ -43,7 +43,7 @@ mm_return_vm_page_to_kernel (void * vm_page , int units) {
 void
 mm_instantiate_new_page_family(
 	char *struct_name,
-	uint32_t struct size) {
+	uint32_t struct_size) {
 	
 	vm_page_family_t *vm_page_family_curr = NULL;
 	vm_page_for_families_t *new_vm_page_for_families = NULL;
@@ -74,7 +74,7 @@ mm_instantiate_new_page_family(
 	} ITERATE_PAGE_FAMILIES_END(first_vm_page_for_families , vm_page_family_curr);
        if(count == MAX_FAMILIES_PER_VM_PAGE) {
 	       new_vm_page_for_families = 
-		       (vm_page_for_families_t *)mm_get_new_vm_page from kernel(1);
+		       (vm_page_for_families_t *)mm_get_new_vm_page_from_kernel(1);
 	       new_vm_page_for_families-> next = first_vm_page_for_families;
 	       first_vm_page_for_families = new_vm_page_for_families;
 	       vm_page_family_curr = &first_vm_page_for_families->vm_page_family[0];
@@ -100,3 +100,4 @@ void *addr2 = mm_get_new_vm_page_from_kernel(1);
 printf("page 1 = %p,page 2 = %p\n",addr1,addr2);
 return 0;
 }
+  
